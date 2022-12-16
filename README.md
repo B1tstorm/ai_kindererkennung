@@ -2,6 +2,16 @@
 
 ## Ordnerstruktur
 
+```
+.
+├── INSTALLATION.md
+├── README.md
+└── object_detection
+    ├── images
+    │   └── example.png
+    └── plot_object_detection_saved_model.ipynb
+```
+
 ## Zusammenfassung
 
 In diesem Projekt wird mittels Transferlearning ein etablierstes Object Detection Model verwendet und mit eigenen
@@ -48,3 +58,8 @@ Bei **Problemen** folgendes versuchen:
 ### Installation label-studio
 
 ...
+
+### Pfad für zu predictende Bilder
+
+Unter "object_detection/images/" werden die Bilder abgelegt, welche von der KI genutzt werden sollen.
+Diese werden nicht ins Projekt hochgeladen und nur lokal vom Code verwaltet.
