@@ -9,7 +9,13 @@
 └── object_detection
     ├── images
     │   └── example.png
-    └── plot_object_detection_saved_model.ipynb
+    │   ├── all_images
+    │   ├── detected_persons
+    │   └── not_relevant_label
+    ├── saved_modles
+    │   └── example_model
+    ├── plot_object_detection_saved_model.ipynb
+    └── Extract_Person_Images.ipynb
 ```
 
 ## Zusammenfassung
@@ -24,7 +30,7 @@ ausgeben.
 Es werden alle notwendigen Schritte beschrieben. Zum Beispiel wie die notwendige Software installiert
 wird und welche Packages/Abhängigkeiten verwendet werden.
 
-Darauf folgend wird erklärt wie der Workflow aussieht um dieses Model zu verwenden und es soll möglich sein die KI mit
+Darauf folgend wird erklärt, wie der Workflow aussieht, um dieses Model zu verwenden. Es soll möglich sein die KI mit
 neuen Labels zu trainieren.
 
 ## Verwendete Software
@@ -59,7 +65,20 @@ Bei **Problemen** folgendes versuchen:
 
 ...
 
-### Pfad für zu predictende Bilder
+### Pfad für zu predictende Bilder und Trainingsmodel 
 
 Unter "object_detection/images/" werden die Bilder abgelegt, welche von der KI genutzt werden sollen.
 Diese werden nicht ins Projekt hochgeladen und nur lokal vom Code verwaltet.
+
+Unter "object_detection/saved_models/" werden die Modelle gespeichert, 
+die zum Vorsortieren der Bilder bzw. Anlernen der KI gespeichert. Diese werden nicht ins Projekt hochgeladen und nur lokal vom Code verwaltet.
+
+### Skripte
+####Extract_Person_Images.ipynb:
+wird einmalig verwendet, um die Quell-Bilder vorerst vorzusortieren. Das Skript wurde
+so angepasst, dass es auf jedem Rechner läuft, wenn die Ordnerstruktur eingehalten wurde. 
+Unter dem Ordner all_images sollten alle Quell-Bilder sein. Unter saved_models soll das Model "centernet_hg104_1024x1024_coco17_tpu-32"
+mit seinem variabels-Ordner installiert sein.
+Das Skript verarbeitet jedes Quell-Bild vom Ordner image/all_images. Durch das centernet 
+Model werden menschen auf dem Bild ggf. erkannt und das Bild wird in den Ordner "images/detected_persons"
+kopiert. Wenn keine Menschen auf dem Bild zu erkennen sind, wird das Bild ind den Ordner "images/not_relevant_label" kopiert
