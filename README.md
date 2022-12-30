@@ -65,20 +65,29 @@ Bei **Problemen** folgendes versuchen:
 
 ...
 
-### Pfad für zu predictende Bilder und Trainingsmodel 
+### Pfad für zu predictende Bilder und Trainingsmodel
 
 Unter "object_detection/images/" werden die Bilder abgelegt, welche von der KI genutzt werden sollen.
 Diese werden nicht ins Projekt hochgeladen und nur lokal vom Code verwaltet.
 
-Unter "object_detection/saved_models/" werden die Modelle gespeichert, 
-die zum Vorsortieren der Bilder bzw. Anlernen der KI gespeichert. Diese werden nicht ins Projekt hochgeladen und nur lokal vom Code verwaltet.
+Unter "object_detection/saved_models/" werden die Modelle gespeichert,
+die zum Vorsortieren der Bilder bzw. Anlernen der KI gespeichert. Diese werden nicht ins Projekt hochgeladen und nur
+lokal vom Code verwaltet.
 
 ### Skripte
-####Extract_Person_Images.ipynb:
-wird einmalig verwendet, um die Quell-Bilder vorerst vorzusortieren. Das Skript wurde
-so angepasst, dass es auf jedem Rechner läuft, wenn die Ordnerstruktur eingehalten wurde. 
-Unter dem Ordner all_images sollten alle Quell-Bilder sein. Unter saved_models soll das Model "centernet_hg104_1024x1024_coco17_tpu-32"
-mit seinem variabels-Ordner installiert sein.
-Das Skript verarbeitet jedes Quell-Bild vom Ordner image/all_images. Durch das centernet 
-Model werden menschen auf dem Bild ggf. erkannt und das Bild wird in den Ordner "images/detected_persons"
-kopiert. Wenn keine Menschen auf dem Bild zu erkennen sind, wird das Bild ind den Ordner "images/not_relevant_label" kopiert
+
+Extract_Person_Images.ipynb:
+
+> wird einmalig verwendet, um die Quell-Bilder vorerst vorzusortieren. Das Skript wurde
+> so angepasst, dass es auf jedem Rechner läuft, wenn die Ordnerstruktur eingehalten wurde.
+> Unter dem Ordner all_images sollten alle Quell-Bilder sein. Unter saved_models soll das Model "
+> centernet_hg104_1024x1024_coco17_tpu-32"
+> mit seinem variabels-Ordner installiert sein.
+> Das Skript verarbeitet jedes Quell-Bild vom Ordner image/all_images. Durch das centernet
+> Model werden menschen auf dem Bild ggf. erkannt und das Bild wird in den Ordner "images/detected_persons"
+> kopiert. Wenn keine Menschen auf dem Bild zu erkennen sind, wird das Bild in den Ordner "images/not_relevant_label"
+> kopiert
+
+plot_object_detection_saved_model.ipynb
+
+> Beschreibung
