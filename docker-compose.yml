@@ -1,0 +1,57 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis:alpine
+    container_name: redis
+    hostname: redis
+    volumes:
+      - "./label-studio-ml-backend/label_studio_ml/examples/simple_text_classifier/data/redis:/data"
+    expose:
+      - 6379
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.8
+  server:
+    container_name: server
+    # TODO: Trainiertes Modell in Dockerhub laden und hier mit :latest verwenden
+    build: ./label-studio-ml-backend/label_studio_ml/examples/simple_text_classifier
+    environment:
+      - MODEL_DIR=/data/models
+      - RQ_QUEUE_NAME=default
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - LABEL_STUDIO_USE_REDIS=true
+    ports:
+      - "9090:9090"
+    depends_on:
+      - redis
+    links:
+      - redis
+    volumes:
+      - "./label-studio-ml-backend/label_studio_ml/examples/simple_text_classifier/data/server:/data"
+      - "./label-studio-ml-backend/label_studio_ml/examples/simple_text_classifier/logs:/tmp"
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.9
+  label-studio:
+    container_name: label-studio
+    image: heartexlabs/label-studio:latest
+    volumes:
+      - "./labelstudio-data:/label-studio/data"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - server
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.10
+networks:
+  app_net:
+    driver: bridge
+    enable_ipv6: false
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
+          gateway: 172.16.238.1
