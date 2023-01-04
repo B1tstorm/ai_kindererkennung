@@ -1,4 +1,3 @@
-import os
 import logging
 import pathlib
 
@@ -8,10 +7,8 @@ from object_detection.utils import label_map_util
 from PIL import Image
 
 from label_studio_ml.model import LabelStudioMLBase
-from label_studio_ml.utils import get_image_size, get_single_tag_keys, get_image_local_path
-from label_studio.core.utils.io import get_data_dir
+from label_studio_ml.utils import get_image_size, get_single_tag_keys
 from label_studio.core.settings.base import DATA_UNDEFINED_NAME
-from urllib.parse import urlparse
 
 logger = logging.getLogger(__name__)
 
@@ -42,13 +39,14 @@ class TFMobileNet(LabelStudioMLBase):
                                                 origin=base_url + filename,
                                                 untar=False)
             label_dir = pathlib.Path(label_dir)
-            print("#########" + str(label_dir))
+            print("######### " + str(label_dir))
 
             return str(label_dir)
 
         LABEL_FILENAME = 'mscoco_label_map.pbtxt'
         PATH_TO_LABELS = download_labels(LABEL_FILENAME)
 
+        # TODO: Testen PATH_TO_LABELS festen Pfad geben /root/.keras/...
         self.category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
 
         self.from_name, self.to_name, self.value, self.labels_in_config = get_single_tag_keys(
