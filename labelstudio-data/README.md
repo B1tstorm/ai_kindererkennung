@@ -1,0 +1,7 @@
+# Was ist hier drinne ?
+----
+
+### Beschreibung
+
+**label_studio.sqlite3**: Datenbank mit
+Usern, angelegten Projekten, labeling configs, ML Backends 

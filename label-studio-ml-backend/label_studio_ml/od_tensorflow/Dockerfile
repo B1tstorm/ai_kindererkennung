@@ -16,6 +16,8 @@ RUN --mount=type=cache,target=$PIP_CACHE_DIR \
 
 COPY . ./
 
+RUN mv libs/object_detection .
+
 EXPOSE $PORT
 
 CMD exec gunicorn --preload --bind :$PORT --workers 1 --threads 8 --timeout 0 _wsgi:app
