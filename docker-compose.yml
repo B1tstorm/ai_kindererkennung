@@ -6,7 +6,7 @@ services:
     container_name: redis
     hostname: redis
     volumes:
-      - "./label-studio-ml-backend/label_studio_ml/examples/simple_text_classifier/data/redis:/data"
+      - "./label-studio-ml-backend/label_studio_ml/od_tensorflow/data/redis:/data"
     expose:
       - 6379
     networks:
@@ -15,7 +15,7 @@ services:
   server:
     container_name: server
     # TODO: Trainiertes Modell in Dockerhub laden und hier mit :latest verwenden
-    build: ./label-studio-ml-backend/label_studio_ml/examples/simple_text_classifier
+    build: ./label-studio-ml-backend/label_studio_ml/od_tensorflow
     environment:
       - MODEL_DIR=/data/models
       - RQ_QUEUE_NAME=default
@@ -29,8 +29,9 @@ services:
     links:
       - redis
     volumes:
-      - "./label-studio-ml-backend/label_studio_ml/examples/simple_text_classifier/data/server:/data"
-      - "./label-studio-ml-backend/label_studio_ml/examples/simple_text_classifier/logs:/tmp"
+      - "./label-studio-ml-backend/label_studio_ml/od_tensorflow/data/server:/data"
+      - "./label-studio-ml-backend/label_studio_ml/od_tensorflow/logs:/tmp"
+      - "./object_detection/saved_models:/saved_models"
     networks:
       app_net:
         ipv4_address: 172.16.238.9

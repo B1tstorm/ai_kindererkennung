@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.4
-FROM python:3.8-slim
+FROM python:3.9-slim
 
 ENV PYTHONUNBUFFERED=True \
     PORT=${PORT:-9090} \
@@ -10,6 +10,9 @@ COPY requirements.txt .
 
 RUN --mount=type=cache,target=$PIP_CACHE_DIR \
     pip3 install -r requirements.txt
+
+RUN --mount=type=cache,target=$PIP_CACHE_DIR \
+    pip3 install label-studio
 
 COPY . ./
 
