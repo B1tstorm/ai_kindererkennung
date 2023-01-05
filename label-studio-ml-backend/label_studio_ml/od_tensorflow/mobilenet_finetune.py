@@ -17,13 +17,15 @@ class TFMobileNet(LabelStudioMLBase):
 
     def __init__(self, image_dir=None, score_threshold=0.3, **kwargs):
         """
-        :param image_dir: Directory where images are stored (leadve it default when you use direct file upload into Label Studio instead of URLs)
+        :param image_dir: Directory where images are stored
         :param score_threshold: score threshold to wipe out noisy results
         :param kwargs:
         """
         super(TFMobileNet, self).__init__(**kwargs)
 
         self.image_dir = image_dir
+        # This is the hostname/IP from the other Docker container
+        self.hostname = "http://172.16.238.10:8080"
 
         # Load the exported model from saved_model directory
         PATH_TO_SAVED_MODEL = '/saved_models/centernet_hg104_1024x1024_coco17_tpu-32'
@@ -75,6 +77,10 @@ class TFMobileNet(LabelStudioMLBase):
         print('image_path:', image_path)
 
         image_np = self.load_image_into_numpy_array(image_path)
+
+        if len(image_np.shape) == 2:
+            image_np = np.stack((image_np,) * 3, axis=-1)
+
         input_tensor = tf.convert_to_tensor(image_np)
         input_tensor = input_tensor[tf.newaxis, ...]
         detections = self.detect_fn(input_tensor)
