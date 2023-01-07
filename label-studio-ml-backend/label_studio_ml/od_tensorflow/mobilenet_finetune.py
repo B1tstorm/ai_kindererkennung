@@ -1,4 +1,5 @@
 import logging
+import os
 import pathlib
 
 import tensorflow as tf
@@ -25,10 +26,10 @@ class TFMobileNet(LabelStudioMLBase):
 
         self.image_dir = image_dir
         # This is the hostname/IP from the other Docker container
-        self.hostname = "http://172.16.238.10:8080"
+        #self.hostname = "http://172.16.238.10:8080"
 
         # Load the exported model from saved_model directory
-        PATH_TO_SAVED_MODEL = '/saved_models/centernet_hg104_1024x1024_coco17_tpu-32'
+        PATH_TO_SAVED_MODEL = os.path.join("od_tensorflow", "data", "server", "models", "centernet_hg104_1024x1024_coco17_tpu-32")
         print("Loading model...")
         # Lead saved model and build detection fuction
         self.detect_fn = tf.saved_model.load(PATH_TO_SAVED_MODEL)

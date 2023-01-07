@@ -7,15 +7,22 @@ services:
     hostname: redis
     volumes:
       - "./label-studio-ml-backend/label_studio_ml/od_tensorflow/data/redis:/data"
-    expose:
-      - 6379
+    ports:
+      - "6379:6379"
+#    expose:
+#      - 6379
     networks:
-      app_net:
-        ipv4_address: 172.16.238.8
+      app.net:
+        aliases:
+            - backend.develop
+ #       ipv4_address: 172.16.238.8
+    profiles:
+      - be
   server:
     container_name: server
     # TODO: Trainiertes Modell in Dockerhub laden und hier mit :latest verwenden
-    build: ./label-studio-ml-backend/label_studio_ml/od_tensorflow
+    build:
+      context: ./label-studio-ml-backend/label_studio_ml/od_tensorflow
     environment:
       - MODEL_DIR=/data/models
       - RQ_QUEUE_NAME=default
@@ -34,26 +41,36 @@ services:
       - "./object_detection/saved_models:/saved_models"
       # - "./labelstudio-data/media/upload:/data/"
     networks:
-      app_net:
-        ipv4_address: 172.16.238.9
+      app.net:
+        aliases:
+            - backend.develop
+#        ipv4_address: 172.16.238.9
+    profiles:
+      - be
   label-studio:
     container_name: label-studio
     image: heartexlabs/label-studio:latest
     volumes:
-      - "./labelstudio-data:/label-studio/data"
+      - ./labelstudio-data:/label-studio/data:delegated
     ports:
       - "8080:8080"
     depends_on:
       - server
     networks:
-      app_net:
-        ipv4_address: 172.16.238.10
+      app.net:
+        aliases:
+            - backend.develop
+#        ipv4_address: 172.16.238.10
+    profiles:
+      - fe
 networks:
-  app_net:
+  app.net:
     driver: bridge
-    enable_ipv6: false
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.16.238.0/24
-          gateway: 172.16.238.1
+    name: app-network
+    attachable: true
+#    enable_ipv6: false
+#    ipam:
+#      driver: default
+#      config:
+#        - subnet: 172.16.238.0/24
+#          gateway: 172.16.238.1
