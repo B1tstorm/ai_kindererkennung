@@ -347,4 +347,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,intellij,python
-/object_detection/saved_models/centernet_hg104_1024x1024_coco17_tpu-32/variables/
+/label-studio-ml-backend/label_studio_ml/od_tensorflow/data/server/models/centernet_hg104_1024x1024_coco17_tpu-32/variables/
