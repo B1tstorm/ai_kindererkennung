@@ -1,4 +1,5 @@
 import logging
+import os
 import pathlib
 
 import tensorflow as tf
@@ -69,55 +70,58 @@ class TFMobileNet(LabelStudioMLBase):
         return np.array(Image.open(path))
 
     def predict(self, tasks, **kwargs):
-        assert len(tasks) == 1
-        task = tasks[0]  # looks like task (img) is dealt one by one
-        image_url = self._get_image_url(task)
-        print('image_url:', image_url)
-        image_path = self.get_local_path(image_url, project_dir=self.image_dir)
-        print('image_path:', image_path)
+        gpus = tf.config.experimental.list_physical_devices('GPU')
+        predictions = []
+        self.hostname = "http://172.16.238.10:8080"
+        for task in  tasks:  # looks like task (img) is dealt one by one
+            image_url = self._get_image_url(task)
+            print('image_url:', image_url)
+            image_path = self.get_local_path(image_url, project_dir=self.image_dir)
+            print('image_path:', image_path)
 
-        image_np = self.load_image_into_numpy_array(image_path)
+            image_np = self.load_image_into_numpy_array(image_path)
 
-        if len(image_np.shape) == 2:
-            image_np = np.stack((image_np,) * 3, axis=-1)
+            if len(image_np.shape) == 2:
+                image_np = np.stack((image_np,) * 3, axis=-1)
 
-        input_tensor = tf.convert_to_tensor(image_np)
-        input_tensor = input_tensor[tf.newaxis, ...]
-        detections = self.detect_fn(input_tensor)
+            input_tensor = tf.convert_to_tensor(image_np)
+            input_tensor = input_tensor[tf.newaxis, ...]
+            detections = self.detect_fn(input_tensor)
 
-        # All outputs are batches tensors.
-        # Convert to numpy arrays, and take index [0] to remove the batch dimension.
-        # Only interested in the first num_detections.
+            # All outputs are batches tensors.
+            # Convert to numpy arrays, and take index [0] to remove the batch dimension.
+            # Only interested in the first num_detections.
 
-        boxes = detections['detection_boxes'][0].numpy()  # Getting the list of box coordinates
-        max_boxes_to_draw = boxes.shape[0]  # Getting the number of the list
-        scores = detections['detection_scores'][0].numpy()  # Getting scores for threshold evaluation
+            boxes = detections['detection_boxes'][0].numpy()  # Getting the list of box coordinates
+            max_boxes_to_draw = boxes.shape[0]  # Getting the number of the list
+            scores = detections['detection_scores'][0].numpy()  # Getting scores for threshold evaluation
 
-        results = []
-        all_scores = []
+            results = []
+            all_scores = []
 
-        img_width, img_height = get_image_size(image_path)  # This is not used either
+            img_width, img_height = get_image_size(image_path)  # This is not used either
 
-        for i in range(boxes.shape[0]):
-            if scores is None or scores[i] > self.score_thresh:
-                class_name = self.category_index[detections['detection_classes'][0, i].numpy().astype(int)]['name']
-                results.append({
-                    "from_name": self.from_name,
-                    "to_name": self.to_name,
-                    "type": "rectanglelabels",
-                    "value": {
-                        "rectanglelabels": [class_name],
-                        "x": boxes[i, 1] * 100,
-                        "y": boxes[i, 0] * 100,
-                        "width": (boxes[0, 3] - boxes[0, 1]) * 100,
-                        "height": (boxes[0, 2] - boxes[0, 0]) * 100
-                    }
-                })
-                all_scores.append(scores[i])
-        avg_score = sum(all_scores) / max(len(all_scores), 1)
-        print("results", results)
-        print("each score:", all_scores)
-        return [{
-            "result": results,
-            "score": avg_score
-        }]
+            for i in range(boxes.shape[0]):
+                if scores is None or scores[i] > self.score_thresh:
+                    class_name = self.category_index[detections['detection_classes'][0, i].numpy().astype(int)]['name']
+                    results.append({
+                        "from_name": self.from_name,
+                        "to_name": self.to_name,
+                        "type": "rectanglelabels",
+                        "value": {
+                            "rectanglelabels": [class_name],
+                            "x": boxes[i, 1] * 100,
+                            "y": boxes[i, 0] * 100,
+                            "width": (boxes[0, 3] - boxes[0, 1]) * 100,
+                            "height": (boxes[0, 2] - boxes[0, 0]) * 100
+                        }
+                    })
+                    all_scores.append(scores[i])
+            avg_score = sum(all_scores) / max(len(all_scores), 1)
+            print("results", results)
+            print("each score:", all_scores)
+            predictions.append({
+                "result": results,
+                "score": avg_score
+            })
+        return predictions
