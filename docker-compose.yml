@@ -9,13 +9,10 @@ services:
       - "./label-studio-ml-backend/label_studio_ml/od_tensorflow/data/redis:/data"
     ports:
       - "6379:6379"
-#    expose:
-#      - 6379
     networks:
       app.net:
         aliases:
             - backend.develop
- #       ipv4_address: 172.16.238.8
     profiles:
       - be
   server:
@@ -38,13 +35,10 @@ services:
     volumes:
       - "./label-studio-ml-backend/label_studio_ml/od_tensorflow/data/server:/app/od_tensorflow/data/server"
       - "./label-studio-ml-backend/label_studio_ml/od_tensorflow/logs:/tmp"
-      #- "./object_detection/saved_models:/saved_models"
-      # - "./labelstudio-data/media/upload:/data/"
     networks:
       app.net:
         aliases:
             - backend.develop
-#        ipv4_address: 172.16.238.9
     profiles:
       - be
   label-studio:
@@ -54,13 +48,10 @@ services:
       - ./labelstudio-data:/label-studio/data:delegated
     ports:
       - "8080:8080"
-    depends_on:
-      - server
     networks:
       app.net:
         aliases:
             - backend.develop
-#        ipv4_address: 172.16.238.10
     profiles:
       - fe
 networks:
@@ -68,9 +59,3 @@ networks:
     driver: bridge
     name: app-network
     attachable: true
-#    enable_ipv6: false
-#    ipam:
-#      driver: default
-#      config:
-#        - subnet: 172.16.238.0/24
-#          gateway: 172.16.238.1
