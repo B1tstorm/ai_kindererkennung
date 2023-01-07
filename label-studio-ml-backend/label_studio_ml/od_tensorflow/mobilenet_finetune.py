@@ -72,7 +72,6 @@ class TFMobileNet(LabelStudioMLBase):
     def predict(self, tasks, **kwargs):
         gpus = tf.config.experimental.list_physical_devices('GPU')
         predictions = []
-        self.hostname = "http://172.16.238.10:8080"
         for task in  tasks:  # looks like task (img) is dealt one by one
             image_url = self._get_image_url(task)
             print('image_url:', image_url)
