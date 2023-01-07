@@ -1,7 +1,7 @@
-# Was ist hier drinne ?
+# Dieser Ordner wird ausschließlich von der labelstudio UI gemanaged
 ----
 
 ### Beschreibung
 
 **label_studio.sqlite3**: Datenbank mit
-Usern, angelegten Projekten, labeling configs, ML Backends 
+Usern, angelegten Projekten, labeling configs, ML Backends, ...
