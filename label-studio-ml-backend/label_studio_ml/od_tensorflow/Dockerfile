@@ -12,7 +12,7 @@ RUN --mount=type=cache,target=$PIP_CACHE_DIR \
     pip3 install -r requirements.txt
 
 RUN --mount=type=cache,target=$PIP_CACHE_DIR \
-    pip3 install label-studio
+    pip install protobuf==3.20.0
 
 COPY . ./
 

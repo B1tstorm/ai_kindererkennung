@@ -8,8 +8,8 @@ from object_detection.utils import label_map_util
 from PIL import Image
 
 from label_studio_ml.model import LabelStudioMLBase
-from label_studio_ml.utils import get_image_size, get_single_tag_keys
-from label_studio.core.settings.base import DATA_UNDEFINED_NAME
+from label_studio_ml.utils import get_image_size, get_single_tag_keys, DATA_UNDEFINED_NAME
+#from label_studio.core.settings.base import DATA_UNDEFINED_NAME
 
 logger = logging.getLogger(__name__)
 
