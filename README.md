@@ -40,7 +40,11 @@ neuen Labels zu trainieren.
 - [Label Studio](https://labelstud.io) für das Labeling und Evaluieren des Models
 - [miniconda](https://docs.conda.io/en/latest/miniconda.html)
 
-## Setup
+## Environment Setup
+
+1. git lfs
+   installieren [docs.github.com](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage)
+2. ```git lfs pull``` ausführen
 
 ### Installation Tensorflow object detection api
 
@@ -65,7 +69,7 @@ Bei **Problemen** folgendes versuchen:
 
 ...
 
-### Pfad für zu predictende Bilder und Trainingsmodel
+## Pfad für zu predictende Bilder und Trainingsmodel
 
 Unter "object_detection/images/" werden die Bilder abgelegt, welche von der KI genutzt werden sollen.
 Diese werden nicht ins Projekt hochgeladen und nur lokal vom Code verwaltet.
@@ -74,7 +78,9 @@ Unter "object_detection/saved_models/" werden die Modelle gespeichert,
 die zum Vorsortieren der Bilder bzw. Anlernen der KI gespeichert. Diese werden nicht ins Projekt hochgeladen und nur
 lokal vom Code verwaltet.
 
-### Skripte
+## Skripte
+
+Zu finden sind die Skripte im Unterordner `Scripts/`
 
 Extract_Person_Images.ipynb:
 
