@@ -352,3 +352,4 @@ $RECYCLE.BIN/
 /TensorFlow/workspace/model1/images/train/*
 /TensorFlow/workspace/model1/images/test/*
 /labelstudio-data/export/
+/TensorFlow/workspace/model1/images/exported_datasets/*
