@@ -352,4 +352,9 @@ $RECYCLE.BIN/
 /TensorFlow/workspace/model1/images/train/*
 /TensorFlow/workspace/model1/images/test/*
 /labelstudio-data/export/
+/TensorFlow/workspace/model1/exported-models/
+/TensorFlow/workspace/model1/annotations/train.record
+/TensorFlow/workspace/model1/annotations/test.record
+/TensorFlow/workspace/model1/pre-trained-models/ssd_mobilenet_v1_fpn_640x640_coco17_tpu-8/
+/TensorFlow/workspace/model1/models/ssd_mobilenet_v1_fpn_640x640_coco17_tpu-8/
 /TensorFlow/workspace/model1/images/exported_datasets/*
