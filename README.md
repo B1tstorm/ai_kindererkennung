@@ -40,32 +40,48 @@ neuen Labels zu trainieren.
 - [Label Studio](https://labelstud.io) für das Labeling und Evaluieren des Models
 - [miniconda](https://docs.conda.io/en/latest/miniconda.html)
 
-## Environment Setup
+## Setup
+
+Um inferences auf Bilder auszuführen, ein Modell zu trainieren und zu evaluieren werden bestimmte Python Packages benötigt. Dies beschreiben die folgenden Schritte.
+
+### 1. Installation von Git LFS für das Modell
 
 1. git lfs
    installieren [docs.github.com](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage)
 2. ```git lfs pull``` ausführen
 
-### Installation Tensorflow object detection api
-
-[Offizielles Setup](https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/install.html#protobuf-installation-compilation)
-
-Zunächst muss der PC eingerichtet werden. Dazu gibt es das offizielle Tutorial welches unter MacOS leider nicht richtig
-funktioniert, jedoch für Windows und Linux geschrieben ist. Dennoch sollten unter MacOS die Schritte ausgeführt werden.
-Bei **Problemen** folgendes versuchen:
+### 2. Installation von miniconda 
 
 - miniconda3 installieren
-- conda env erstellen
-- das erstellte env aktivieren
-- Befehle aus INSTALLATION.md ausführen (werden benötigt damit folges funktioniert)
-- [Downloading the TensorFlow Model Garden](https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/install.html#downloading-the-tensorflow-model-garden)
-- [Install the Object Detection API](https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/install.html#install-the-object-detection-api)
-  bei Fehlern bzgl. COCO
-  einfach [COCO API installation](https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/install.html#coco-api-installation)
-  ausprobieren
-- [Test your Installation](https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/install.html#test-your-installation)
 
-### Installation label-studio
+### 3. Installation von Tensorflow object detection api
+
+Zunächst muss der PC eingerichtet werden. Dazu gibt es das [offizielle Tutorial](https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/install.html#protobuf-installation-compilation) welches unter MacOS leider nicht richtig
+funktioniert, weil es für Windows und Linux geschrieben ist. Eine einfachere Variante, welche unter allen Betriebssystemen funktionieren sollte, ist unser Vorgehen, welches wie folgt aussieht und NVIDIA GPUs unterstützt.
+
+```
+conda create -n tf python=3.9
+conda activate tf
+pip install --ignore-installed --upgrade tensorflow
+# Clone the tensorflow models repository
+git clone https://github.com/tensorflow/models.git
+cd models/research/
+
+protoc object_detection/protos/*.proto --python_out=.
+cp object_detection/packages/tf2/setup.py .
+python -m pip install .
+```
+Nun kann die installation getestet werden mit dem Befehl:   
+`python3 object_detection/builders/model_builder_tf2_test.py`
+```
+# Für NVIDIA GPU Support
+conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0
+python -m pip install --upgrade tensorrt
+```
+Um nun zu prüfen ob die GPU erkannt wird, kann dieser Befehl genutzt werden.  
+`python3 -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"`
+
+### 4. (optional) Installation von label-studio zum annotieren von Bildern
 
 ...
 
