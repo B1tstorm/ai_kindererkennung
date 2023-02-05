@@ -247,10 +247,17 @@ plot_object_detection_saved_model.ipynb
 >>     Zeile 123    input_path: "annotations/test.record"
 >> ```
 >### exporter_main_v2.py
-> Bei der Ausführung dieser Datei mit den richtigen Parameter, wird ein trainiertes Modell exportiert
+> Bei der Ausführung dieser python Datei mit den richtigen Parametern, wird ein trainiertes Modell exportiert
 >### generate_tfrecord.py
-> Bei der Ausführung dieser Datei wird der Datensatz (images, xml) zu tensorflow.records Konvertiert. 
+> Bei der Ausführung dieser python Datei wird der Datensatz (images, xml) zu tensorflow.records Konvertiert. 
 >### model_main_tf2.py
 > Diese Datei ist die main Datei für das Trainieren eines Modells.
+>## Starten des Trainings
+>Sobald der Ordner "model1" wie beschrieben erstellt wurde, kann das Weiter-Training gestartet werden.
+>Öffnen Sie die Datei "training-manager.ipynb" und führen Sie die entsprechenden Zellen aus.
+
+
+ 
+ 
 
 
