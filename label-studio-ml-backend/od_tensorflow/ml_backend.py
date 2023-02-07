@@ -4,17 +4,17 @@ import pathlib
 
 import tensorflow as tf
 import numpy as np
+import yaml
 from object_detection.utils import label_map_util
 from PIL import Image
 
 from label_studio_ml.model import LabelStudioMLBase
 from label_studio_ml.utils import get_image_size, get_single_tag_keys, DATA_UNDEFINED_NAME
-#from label_studio.core.settings.base import DATA_UNDEFINED_NAME
 
 logger = logging.getLogger(__name__)
 
 
-class TFMobileNet(LabelStudioMLBase):
+class MLBackend(LabelStudioMLBase):
 
     def __init__(self, image_dir=None, score_threshold=0.3, **kwargs):
         """
@@ -22,14 +22,16 @@ class TFMobileNet(LabelStudioMLBase):
         :param score_threshold: score threshold to wipe out noisy results
         :param kwargs:
         """
-        super(TFMobileNet, self).__init__(**kwargs)
+        super(MLBackend, self).__init__(**kwargs)
 
         self.image_dir = image_dir
         # This is the hostname/IP from the other Docker container
-        #self.hostname = "http://172.16.238.10:8080"
+        # self.hostname = "http://172.16.238.10:8080"
 
         # Load the exported model from saved_model directory
-        PATH_TO_SAVED_MODEL = os.path.join("od_tensorflow", "data", "server", "models", "centernet_hg104_1024x1024_coco17_tpu-32")
+        with open("../../config.yaml", "r") as config_file:
+            config = yaml.load(config_file, Loader=yaml.FullLoader)
+        PATH_TO_SAVED_MODEL = config['PATH_TO_ML_BACKEND_MODEL']
         print("Loading model...")
         # Lead saved model and build detection fuction
         self.detect_fn = tf.saved_model.load(PATH_TO_SAVED_MODEL)
@@ -72,7 +74,7 @@ class TFMobileNet(LabelStudioMLBase):
     def predict(self, tasks, **kwargs):
         gpus = tf.config.experimental.list_physical_devices('GPU')
         predictions = []
-        for task in  tasks:  # looks like task (img) is dealt one by one
+        for task in tasks:  # looks like task (img) is dealt one by one
             image_url = self._get_image_url(task)
             print('image_url:', image_url)
             image_path = self.get_local_path(image_url, project_dir=self.image_dir)

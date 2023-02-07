@@ -6,13 +6,13 @@ services:
     container_name: redis
     hostname: redis
     volumes:
-      - "./label-studio-ml-backend/label_studio_ml/od_tensorflow/data/redis:/data"
+      - "./label-studio-ml-backend/od_tensorflow/data/redis:/data"
     ports:
       - "6379:6379"
     networks:
       app.net:
         aliases:
-            - backend.develop
+          - backend.develop
     profiles:
       - be
   server:
@@ -33,12 +33,12 @@ services:
     links:
       - redis
     volumes:
-      - "./label-studio-ml-backend/label_studio_ml/od_tensorflow/data/server:/app/od_tensorflow/data/server"
-      - "./label-studio-ml-backend/label_studio_ml/od_tensorflow/logs:/tmp"
+      - "./label-studio-ml-backend/od_tensorflow/data/server:/app/od_tensorflow/data/server"
+      - "./label-studio-ml-backend/od_tensorflow/logs:/tmp"
     networks:
       app.net:
         aliases:
-            - backend.develop
+          - backend.develop
     profiles:
       - be
   label-studio:
@@ -51,7 +51,7 @@ services:
     networks:
       app.net:
         aliases:
-            - backend.develop
+          - backend.develop
     profiles:
       - fe
 networks:

@@ -347,11 +347,10 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,intellij,python
-/label-studio-ml-backend/label_studio_ml/od_tensorflow/data/redis/dump.rdb
-/labelstudio-data/media/upload/*
+/label-studio-ml-backend/od_tensorflow/data/
 /TensorFlow/workspace/project_museum/images/train/*
 /TensorFlow/workspace/project_museum/images/test/*
-/labelstudio-data/export/
+/labelstudio-data/*
 /TensorFlow/workspace/project_museum/exported-models/
 /TensorFlow/workspace/project_museum/annotations/train.record
 /TensorFlow/workspace/project_museum/annotations/test.record
