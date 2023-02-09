@@ -25,8 +25,6 @@ class MLBackend(LabelStudioMLBase):
         super(MLBackend, self).__init__(**kwargs)
 
         self.image_dir = image_dir
-        # This is the hostname/IP from the other Docker container
-        # self.hostname = "http://172.16.238.10:8080"
 
         # Load the exported model from saved_model directory
         with open("../../config.yaml", "r") as config_file:

@@ -134,12 +134,23 @@ Installation mit conda: [labelstud.io](https://labelstud.io/guide/install.html)
 
 ### 7. (optional) Machine learning backend zum prelabeln
 
-Prelabeln bedeutet, die Bilder welche man in label-studio importiert, automatisch von einem object detection Modell
-annotieren lassen. Dies beschleunigt die Arbeit und zeigt die genauigkeit des verwendeten Modells.
+Pre-labeln bedeutet, eine Menge an Bilder von einem vortrainierten Model vor annotieren lassen.
+Dies beschleunigt die Arbeit und zeigt die genauigkeit des verwendeten Modells. 
 Zum prelabeln wird ein Modell benötigt, die Anleitung hierzu findet man im nächsten Abschnitt *Ein eigenes Modell
 tranieren* unter *pre-trained-models*.
 
-# TODO: Anleitung zum ML Backend einrichten und anbinden
+Das Machine Learing Backend kann über zwei Wege gestartet werden: 
+1. docker-compose.yml starten.
+2. label-studio-ml-backend mit pip im conda environment installieren & starten [How to set up machine learning with  label-Studio](https://labelstud.io/guide/ml.html#How-to-set-up-machine-learning-with-Label-Studio)
+
+Nach dem Starten des Ml Backends sollten die wunsch Labels in Label-Studio unter Setting/labeling Interface gesetzte werden.         
+Das Anbinden des ML Backends an Label-Studio Frontend erfolgt unter 
+Label-Studio --> Setting --> Machine Learing --> Add Model --> URL: ( z.B. http://backend.develop:9090 wenn das Backend
+mit unserem Docker file gestartet haben)  
+für weitere Informationen besuchen Sie das offizielle guid [Add ML Backend in Label Studio](https://labelstud.io/guide/ml.html#Add-an-ML-backend-using-the-Label-Studio-UI)   
+
+
+
 
 ---
 
@@ -202,8 +213,9 @@ IDs dazu. Diese IDs entsprechen den IDs welche in label-studio angezeigt werden.
 manuell jedes Bild von nolabels bereinigt werden.
 
 ### Exportieren der Datensätze in PASCAL
-
-TODO: Von unten kopieren!
+In Label Studio gibt es die Option, den annotierten Datensatz durch den Export-Button in verschiedene Formate weiterzugeben. 
+Exportieren Sie den annotieren Datensatz aus Label Studio im Pascal VOC XML-Format.          
+Nach dem Herunterladen der Datei entpacken Sie den Ordner, um die resultierenden Bilder und XML-Dateien sehen zu können.
 
 ---
 
@@ -213,7 +225,7 @@ TODO: Von unten kopieren!
 > Ein weiters Modell kann mithilfe dieser Erläuterung nachgebaut werden.
 >```
 > workspace
-> └── model1
+> └── project_museum
 >   ├── annotations
 >   │         ├── label_map.pbtxt
 >   │         ├── test.record
@@ -245,8 +257,8 @@ TODO: Von unten kopieren!
 >   ├── generate_tfrecord.py
 >   └── model_main_tf2.py
 >```
->### model1
-> Der Ordner model1 soll unser Trainingsordner sein, der alle Dateien für das Training unseres Modells enthält.
+>### project_museum
+> Der Ordner project_museum soll unser Trainingsordner sein, der alle Dateien für das Training unseres Modells enthält.
 > Es ist ratsam, jedes Mal, wenn wir mit einem anderen Datensatz trainieren wollen, einen separaten Trainingsordner zu
 > erstellen.
 > Die typische Struktur für Trainingsordner kann, wie unten beschrieben, nachgemacht werden.
@@ -285,12 +297,12 @@ TODO: Von unten kopieren!
     > Um diese Dateien zu erstellen Führen Sie die folgenden Punkte aus:
 >> - Exportieren Sie den annotierten Datensatz vom label-Studio in "Pascal VOC XML" Format
 >> - Entpacken Sie die heruntergeladene Datei und kopieren Sie alle resultierenden Bilder und XML Dateien in den
-     Ordner "model1/images/exported_datasets"
+     Ordner "project_museum/images/exported_datasets"
 >> - Exportieren Sie den Datensatz in Label-Studio auch als "JSON" File und bewegen Sie den JSON nach "
      ki-anwendung_object-detection/Scripts"
 >> - Führen Sie die Datei "ki-anwendung_object-detection/Scripts"/split_datasets_in_test_and_train.ipynb" aus. Als
      Resultat werden die Bilder und xml Datein unter "
-     ki-anwendung_objekt-detection/Tensorflow/workspace/model1/images/exported_datasets"
+     ki-anwendung_objekt-detection/Tensorflow/workspace/project_museum/images/exported_datasets"
      > > auf die zwei ordner "train" und "test" verteilt.
 >> - Öffnen Sie den Notebook "ki-anwendung_object-detection/training-manager.ipynp" und führen Sie die Zelle "Create TF
      records" aus.
@@ -312,11 +324,11 @@ TODO: Von unten kopieren!
 >> - Nachdem Sie die *.tar.gz-Datei heruntergeladen haben, öffnen Sie sie mit einem Dekomprimierungsprogramm Ihrer Wahl
      > > (z. B. 7zip, WinZIP usw.). Öffnen Sie dann den *.tar-Ordner, den Sie sehen, wenn der komprimierte Ordner
      geöffnet
-     > > wird, und extrahieren Sie seinen Inhalt in den Ordner model1/pre-trained-models.
+     > > wird, und extrahieren Sie seinen Inhalt in den Ordner project_museum/pre-trained-models.
 >> - Da wir das "CenterNet HourGlass104 512x512" Modell heruntergeladen haben, sollte unser training_demo Verzeichnis
      > > nun wie folgt aussehen:
 >>```
->> model1/
+>> project_museum/
 >>├─ pre-trained-models/
 >>│  ├─ centernet_hg104_512x512_coco17_tpu-8/
 >>│  │  ├─ checkpoint/
@@ -335,15 +347,15 @@ TODO: Von unten kopieren!
      > > Um einen neuen Trainingsauftrag zu erstellen, gehen Sie folgendermaßen vor:
      >>
 
-- Unter model1/models erstellen Sie ein
+- Unter project_museum/models erstellen Sie ein
   > > neues Verzeichnis mit dem Namen centernet_hg104_512x512_coco17_tpu-8
 
-> > - kopieren Sie die Datei model1/pre-trained-models/centernet_hg104_512x512_coco17_tpu-8/pipeline.config in das neu
+> > - kopieren Sie die Datei project_museum/pre-trained-models/centernet_hg104_512x512_coco17_tpu-8/pipeline.config in das neu
       erstellte
       > > Verzeichnis.
       >>
 
-- Unser model1/models-Verzeichnis sollte nun wie folgt aussehen:
+- Unser project_museum/models-Verzeichnis sollte nun wie folgt aussehen:
   > >    ```     
   > > ── models
   > > └── centernet_hg104_512x512_coco17_tpu-8
@@ -355,7 +367,7 @@ TODO: Von unten kopieren!
      > > In dieser Datei werden die Pfade und Parameter des zu trainierenden Modells eingestellt.    
      > > Jedes vortrainierte Modelle hat eigene pipline.config.    
      > > Hier sind die Änderungen, die in diesem Projekt an der
-     > > "model1/models/centernet_hg104_512x512_coco17_tpu-8/pipeline.config" vorgenommen wurden:
+     > > "project_museum/models/centernet_hg104_512x512_coco17_tpu-8/pipeline.config" vorgenommen wurden:
 >> ```
 >>     Zeile 3      num_classes: 4            
 >>     Zeile 44     batch_size: 4           
@@ -371,6 +383,9 @@ TODO: Von unten kopieren!
 >>     Zeile 119    label_map_path: "annotations/label_map.pbtxt"
 >>     Zeile 123    input_path: "annotations/test.record"
 >> ```
+>## Training starten
+>Sobald der Ordner "project_museum" wie beschrieben erstellt wurde, kann das Weiter-Training gestartet werden.
+> Öffnen Sie die Datei "training-manager.ipynb" und führen Sie die entsprechenden Zellen aus.
 >### exporter_main_v2.py
 > Bei der Ausführung dieser python Datei mit den richtigen Parametern, wird ein trainiertes Modell exportiert
 >### generate_tfrecord.py
