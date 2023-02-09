@@ -1,4 +1,4 @@
-# Dieser Ordner wird ausschließlich von der labelstudio UI gemanaged
+# Dieser Ordner wird ausschließlich von der labelstudio UI gemanaged wenn die docker-compose Datei verwendet wird.
 ----
 
 ### Beschreibung
