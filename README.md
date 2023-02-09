@@ -15,11 +15,35 @@ wird und welche Packages/Abhängigkeiten verwendet werden.
 Darauf folgend wird erklärt, wie der Workflow aussieht, um dieses Model zu verwenden. Es soll möglich sein die KI mit
 neuen Labels zu trainieren.
 
+---
+
 ## Skripte
 
-Zu finden sind die Skripte im Unterordner `Scripts/`
+Zu finden sind die Skripte im Unterordner `Scripts/`.
 
-# TODO: Jedes Skript kurz beschreiben
+#### find_problems_in_dataset_export.ipynb:
+
+Dieses Skript bietet die Möglichkeit, annotierte Datensätze nach Fehlern zu durchsuchen und alle Labels/Klassen zu
+finden.
+Hierfür wird nach dem annotieren in label-studio ein JSON exportiert und dieses im Ordner `Scripts/` abgelegt.
+
+#### split_datasets_in_test_and_train.ipynb:
+
+Hiermit werden anhand des exportierten JSON die exportierten Bilder im PASCAL VOC Format zu Test- und
+Trainings-datensätzen getrennt und in die richtigen Ordner verschoben. Diese werden später verwendet um daraus
+kompatible Datensätze für das Modell zu generieren (.record).
+
+#### training_manager.ipynb:
+
+Zum trainieren, evaluieren und exportieren eines eigenen Modells sind hier die Pythonskripte mit den notwendigen
+Parametern und Pfaden, zum einfachen nuzen hinterlegt.
+
+#### generate_csv.ipynb:
+
+Um die Vorhersagen auf Bilder durch ein Modell zu speichern, wird eine .csv Datei erstellt und mit den Namen des
+jeweiligen Bildes und der Vorhersage des Modells befüllt.
+
+---
 
 ## Verwendete Software
 
@@ -28,6 +52,8 @@ Zu finden sind die Skripte im Unterordner `Scripts/`
 - Jupyter Notebook Plugin falls IDE verwendet wird
 - [Label Studio](https://labelstud.io) für das Labeling und Evaluieren des Models
 - [miniconda](https://docs.conda.io/en/latest/miniconda.html)
+
+---
 
 ## Setup
 
@@ -63,8 +89,8 @@ conda activate tf
 
 Zunächst muss das conda environment für object detection eingerichtet werden. Dazu gibt es
 das [offizielle Tutorial](https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/install.html#protobuf-installation-compilation)
-welches unter MacOS leider nicht richtig
-funktioniert, weil es für Windows und Linux geschrieben ist. Bei Problemen mit den Befehlen das offizielle Tutorial
+welches für MacOS leider nicht richtig
+beschrieben wird. Dafür für Windows und Linux. Bei Problemen mit den Befehlen das offizielle Tutorial
 lesen.
 Eine einfachere Variante, welche unter allen
 Betriebssystemen funktionieren sollte, ist unser Vorgehen, welches wie folgt aussieht und NVIDIA GPUs unterstützt.
@@ -115,6 +141,8 @@ tranieren* unter *pre-trained-models*.
 
 # TODO: Anleitung zum ML Backend einrichten und anbinden
 
+---
+
 ## Inference/prediction auf Bilder ausführen
 
 Unser trainiertes Modell erkennt Kinder, Frauen und Männer.
@@ -138,6 +166,8 @@ Unter "object_detection/saved_models/" werden die Modelle gespeichert,
 die zum Vorsortieren der Bilder bzw. Anlernen der KI gespeichert. Diese werden nicht ins Projekt hochgeladen und nur
 lokal vom Code verwaltet.
 
+---
+
 ## Datensatz generieren
 
 ### Annotieren von Bildern mit label-studio
@@ -148,11 +178,34 @@ Der offizielle Guide zum annotieren: [labelstud.io](https://labelstud.io/guide/)
 
 ### Bereinigen von Fehlern in den annotierten Bildern
 
-TODO: json exporitieren und bereinigen
+Um zu prüfen, ob nur die benötigten Labels/Klassen in den annotierten Bildern zu finden sind, verwenden wir das
+Skript `find_problems_in_dataset_export.ipynb`
+
+Zunächst muss in label-studio ein JSON exportiert werden. Dies enthält
+alle namen und sonstige Informationen zu den Bildern welche zuvor annotiert wurden.
+
+Die exportierte Datei `project-x-at-xxxx-xx-xx-xx-xx-xxxxxxxx.json` wird nach dem export im Downloadsordner des
+Computers liegen.
+Diese Datei dann in den Ordner `Scripts/` des Projekts legen und im Skript `find_problems_in_dataset_export.ipynb` den
+Namen in der Variable `path_to_json` ersetzen.
+
+Dann muss die Zelle ausgeführt werden. Der Output sollte in etwa so aussehen (nach dem bereinigen):
+
+```
+Label names:  {'child', 'man', 'person', 'woman'}
+Pictures with unnamed labels:  0
+PictureIds with unnamed labels:  []
+```
+
+Zu sehen sind alle gefundenen Labels, Anzahl der Bilder welche Annotationen ohne Namen enthalten und die entsprechenden
+IDs dazu. Diese IDs entsprechen den IDs welche in label-studio angezeigt werden. Anhand dieser kann in label-studio
+manuell jedes Bild von nolabels bereinigt werden.
 
 ### Exportieren der Datensätze in PASCAL
 
 TODO: Von unten kopieren!
+
+---
 
 ## Ein eigenes Modell Trainieren
 
@@ -324,9 +377,11 @@ TODO: Von unten kopieren!
 > Bei der Ausführung dieser python Datei wird der Datensatz (images, xml) zu tensorflow.records Konvertiert.
 >### model_main_tf2.py
 > Diese Datei ist die main Datei für das Trainieren eines Modells.
->## Starten des Trainings
->Sobald der Ordner "model1" wie beschrieben erstellt wurde, kann das Weiter-Training gestartet werden.
-> Öffnen Sie die Datei "training-manager.ipynb" und führen Sie die entsprechenden Zellen aus.
+
+### Starten des Trainings
+
+Sobald der Ordner "model1" wie beschrieben erstellt wurde, kann das Weiter-Training gestartet werden.
+Öffnen Sie die Datei "training-manager.ipynb" und führen Sie die entsprechenden Zellen aus.
 
 
  
