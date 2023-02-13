@@ -357,4 +357,5 @@ $RECYCLE.BIN/
 /TensorFlow/workspace/project_museum/pre-trained-models/*
 /TensorFlow/workspace/project_museum/models/*
 /TensorFlow/workspace/project_museum/images/exported_datasets/*
+*.csv
 
