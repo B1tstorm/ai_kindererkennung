@@ -1,19 +1,18 @@
-# Workflow für anwendung und erweiterung eines Object Detection Models
+# Anwendung und erweiterung eines Object Detection Models mit Tensorflow
+
+Das Projekt wurde erstellt als Kooperation zwischen der FH Kiel und dem Badischen Landesmuseum Karlsruhe im Rahmen von „Creative User Empowerment".
 
 ## Zusammenfassung
 
 In diesem Projekt wird mittels Transferlearning ein etablierstes Object Detection Model verwendet und mit eigenen
-Bildern
-(von Kindern) erweitert. Dieses neue Model soll dazu dienen Objekte (Kinder) auf Bildern zu erkennen, zu kategorisieren
-und entsprechend in eigene Ordner zu sortieren. Am Ende lässt sich eine Datei mit den Bildnamen, deren Pfaden und deren
-Kategorie im gewünschten Format
-ausgeben.
+Bildern erweitert. Dieses neue Model soll dazu dienen Objekte (Kinder) auf Bildern zu erkennen und zu kategorisieren. Am Ende lässt sich eine Datei mit den Bildnamen, deren Pfaden und deren
+Kategorie im gewünschten Format ausgeben (z.B. CSV).
 
 Es werden alle notwendigen Schritte beschrieben. Zum Beispiel wie die notwendige Software installiert
 wird und welche Packages/Abhängigkeiten verwendet werden.
 
 Darauf folgend wird erklärt, wie der Workflow aussieht, um dieses Model zu verwenden. Es soll möglich sein die KI mit
-neuen Labels zu trainieren.
+neuen Labels zu trainieren. Dafür werden die Bilder mit label studio annotiert.
 
 ---
 
