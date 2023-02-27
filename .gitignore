@@ -351,7 +351,6 @@ $RECYCLE.BIN/
 /TensorFlow/workspace/project_museum/images/train/*
 /TensorFlow/workspace/project_museum/images/test/*
 /labelstudio-data/*
-/TensorFlow/workspace/project_museum/exported-models/
 /TensorFlow/workspace/project_museum/annotations/train.record
 /TensorFlow/workspace/project_museum/annotations/test.record
 /TensorFlow/workspace/project_museum/pre-trained-models/*
